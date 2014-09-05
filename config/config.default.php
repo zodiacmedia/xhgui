@@ -35,6 +35,28 @@ return array(
 
     'profiler.simple_url' => function($url) {
         return preg_replace('/\=\d+/', '', $url);
-    }
+    },
+
+	/* This option will be passed to xhprof_enable() or uprofiler_enable()
+	 * See: http://php.net/manual/en/xhprof.constants.php
+	 *
+	 *
+	 * XHPROF_FLAGS_NO_BUILTINS
+	 *  Omit built in functions from return
+	 *  This can be useful to simplify the output, but there's some value in seeing that you've called strpos() 2000 times
+	 *  (disabled on PHP 5.5+ as it causes a segfault)
+	 *
+	 * XHPROF_FLAGS_CPU or UPROFILER_FLAGS_CPU
+	 *  Include CPU profiling information in output
+	 *
+	 * XHPROF_FLAGS_MEMORY or UPROFILER_FLAGS_MEMORY
+	 *  Include Memory profiling information in output
+	 *
+	 * Use bitwise operators to combine, so XHPROF_FLAGS_CPU | XHPROF_FLAGS_MEMORY to profile CPU and Memory
+	 *
+	 * For PHP < 5.4 use 
+	 * 	'profiler.options' => XHPROF_FLAGS_CPU | XHPROF_FLAGS_MEMORY | XHPROF_FLAGS_NO_BUILTINS
+	 */
+	'profiler.options' => XHPROF_FLAGS_CPU | XHPROF_FLAGS_MEMORY | XHPROF_FLAGS_NO_BUILTINS
 
 );

@@ -11,26 +11,6 @@
  * auto_prepend_file directive http://php.net/manual/en/ini.core.php#ini.auto-prepend-file
  */
 
-/* xhprof_enable()
- * See: http://php.net/manual/en/xhprof.constants.php
- *
- *
- * XHPROF_FLAGS_NO_BUILTINS
- *  Omit built in functions from return
- *  This can be useful to simplify the output, but there's some value in seeing that you've called strpos() 2000 times
- *  (disabled on PHP 5.5+ as it causes a segfault)
- *
- * XHPROF_FLAGS_CPU
- *  Include CPU profiling information in output
- *
- * XHPROF_FLAGS_MEMORY (integer)
- *  Include Memory profiling information in output
- *
- *
- * Use bitwise operators to combine, so XHPROF_FLAGS_CPU | XHPROF_FLAGS_MEMORY to profile CPU and Memory
- *
- */
-
 /* uprofiler support
  * The uprofiler extension is a fork of xhprof.  See: https://github.com/FriendsOfPHP/uprofiler
  *
@@ -76,13 +56,9 @@ if (!isset($_SERVER['REQUEST_TIME_FLOAT'])) {
 }
 
 if (extension_loaded('uprofiler')) {
-    uprofiler_enable(UPROFILER_FLAGS_CPU | UPROFILER_FLAGS_MEMORY);
+    uprofiler_enable(Xhgui_Config::read('profiler.options'));
 } else {
-    if (PHP_MAJOR_VERSION == 5 && PHP_MINOR_VERSION > 4) {
-        xhprof_enable(XHPROF_FLAGS_CPU | XHPROF_FLAGS_MEMORY | XHPROF_FLAGS_NO_BUILTINS);
-    } else {
-        xhprof_enable(XHPROF_FLAGS_CPU | XHPROF_FLAGS_MEMORY);
-    }
+    xhprof_enable(Xhgui_Config::read('profiler.options'));
 }
 
 register_shutdown_function(
