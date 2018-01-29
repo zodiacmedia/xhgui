@@ -11,6 +11,9 @@ class Xhgui_Profile
      */
     const NO_PARENT = '__xhgui_top__';
 
+    const UNICODE_PERIOD = '.';
+    const UNICODE_FULLWIDTH_PERIOD = '．';
+
     protected $_data;
     protected $_collapsed;
     protected $_indexed;
@@ -49,7 +52,7 @@ class Xhgui_Profile
                 $v = $this->decode($v);
             }
             $replacementKey = strtr($k, array(
-              '．' => '.',
+              Xhgui_Profile::UNICODE_FULLWIDTH_PERIOD => Xhgui_Profile::UNICODE_PERIOD,
             ));
             $target[$replacementKey] = $v;
         }

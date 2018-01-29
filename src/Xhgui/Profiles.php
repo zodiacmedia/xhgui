@@ -273,7 +273,7 @@ class Xhgui_Profiles
                 $v = $this->encodeProfile($v);
             }
             $replacementKey = strtr($k, array(
-              '.' => '．',
+                Xhgui_Profile::UNICODE_PERIOD => Xhgui_Profile::UNICODE_FULLWIDTH_PERIOD,
             ));
             $target[$replacementKey] = $v;
         }
