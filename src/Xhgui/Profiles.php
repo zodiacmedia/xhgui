@@ -255,6 +255,32 @@ class Xhgui_Profiles
     }
 
     /**
+     * Encodes a profile to avoid mongodb key errors.
+     * @param array $profile
+     *
+     * @return array
+     */
+    protected function encodeProfile($profile)
+    {
+        if (!is_array($profile)) {
+            return $profile;
+        }
+        $target = array(
+          '__encoded' => true,
+        );
+        foreach ($profile as $k => $v) {
+            if (is_array($v)) {
+                $v = $this->encodeProfile($v);
+            }
+            $replacementKey = strtr($k, array(
+              '.' => '．',
+            ));
+            $target[$replacementKey] = $v;
+        }
+        return $target;
+    }
+
+    /**
      * Insert a profile run.
      *
      * Does unchecked inserts.
@@ -263,6 +289,7 @@ class Xhgui_Profiles
      */
     public function insert($profile)
     {
+        $profile['profile'] = $this->encodeProfile($profile['profile']);
         return $this->_collection->insert($profile, array('w' => 0));
     }
 
