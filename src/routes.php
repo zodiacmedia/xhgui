@@ -30,6 +30,24 @@ $app->get('/run/view', function () use ($di, $app) {
     $app->controller->view();
 })->name('run.view');
 
+$app->get('/run/delete', function () use ($di, $app) {
+    $app->controller = $di['runController'];
+    $app->controller->deleteForm();
+})->name('run.delete.form');
+
+$app->post('/run/delete', function () use ($di, $app) {
+    $di['runController']->deleteSubmit();
+})->name('run.delete.submit');
+
+$app->get('/run/delete_all', function () use ($di, $app) {
+    $app->controller = $di['runController'];
+    $app->controller->deleteAllForm();
+})->name('run.deleteAll.form');
+
+$app->post('/run/delete_all', function () use ($di, $app) {
+    $di['runController']->deleteAllSubmit();
+})->name('run.deleteAll.submit');
+
 $app->get('/url/view', function () use ($di, $app) {
     $app->controller = $di['runController'];
     $app->controller->url();
@@ -59,18 +77,16 @@ $app->get('/run/callgraph/data', function () use ($di, $app) {
     $di['runController']->callgraphData();
 })->name('run.callgraph.data');
 
-$app->get('/run/flamegraph', function () use ($di, $app) {
-    $app->controller = $di['runController'];
-    $app->controller->flamegraph();
-})->name('run.flamegraph');
-
-$app->get('/run/flamegraph/data', function () use ($di, $app) {
-    $di['runController']->flamegraphData();
-})->name('run.flamegraph.data');
-
 $app->get('/run/callgraph/dot', function () use ($di, $app) {
     $di['runController']->callgraphDataDot();
 })->name('run.callgraph.dot');
+
+// Import route
+$app->post('/run/import', function () use ($di, $app) {
+    $app->controller = $di['importController'];
+    $app->controller->import();
+})->name('run.import');
+
 
 // Watch function routes.
 $app->get('/watch', function () use ($di, $app) {
