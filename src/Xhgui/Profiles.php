@@ -258,11 +258,12 @@ class Xhgui_Profiles
 
     /**
      * Encodes a profile to avoid mongodb key errors.
+     *
      * @param array $profile
      *
      * @return array
      */
-    protected function encodeProfile($profile)
+    public static function encodeProfile($profile)
     {
         if (!is_array($profile)) {
             return $profile;
@@ -272,7 +273,7 @@ class Xhgui_Profiles
         );
         foreach ($profile as $k => $v) {
             if (is_array($v)) {
-                $v = $this->encodeProfile($v);
+                $v = Xhgui_Profiles::encodeProfile($v);
             }
             $replacementKey = strtr($k, array(
                 Xhgui_Profile::UNICODE_PERIOD => Xhgui_Profile::UNICODE_FULLWIDTH_PERIOD,
@@ -291,7 +292,7 @@ class Xhgui_Profiles
      */
     public function insert($profile)
     {
-        $profile['profile'] = $this->encodeProfile($profile['profile']);
+        $profile['profile'] = Xhgui_Profiles::encodeProfile($profile['profile']);
         return $this->_collection->insert($profile, array('w' => 0));
     }
 

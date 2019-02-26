@@ -38,7 +38,7 @@ class Xhgui_Profile
      *
      * @return array
      */
-    protected function decode($profile)
+    public static function decode($profile)
     {
         if (!is_array($profile) || !isset($profile['__encoded'])) {
             return $profile;
@@ -49,7 +49,7 @@ class Xhgui_Profile
                 continue;
             }
             if (is_array($v)) {
-                $v = $this->decode($v);
+                $v = Xhgui_Profile::decode($v);
             }
             $replacementKey = strtr($k, array(
               Xhgui_Profile::UNICODE_FULLWIDTH_PERIOD => Xhgui_Profile::UNICODE_PERIOD,
@@ -70,7 +70,7 @@ class Xhgui_Profile
      */
     protected function _process()
     {
-        $this->_data['profile'] = $this->decode($this->_data['profile']);
+        $this->_data['profile'] = Xhgui_Profile::decode($this->_data['profile']);
         $result = array();
         foreach ($this->_data['profile'] as $name => $values) {
             list($parent, $func) = $this->splitName($name);

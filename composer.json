@@ -13,7 +13,8 @@
         "slim/views": "^0.1.0",
         "twig/twig": "~1.17",
         "pimple/pimple": "^1.0.2",
-        "perftools/xhgui-collector": "^1.4.0"
+        "perftools/xhgui-collector": "^1.4.0",
+        "cweagans/composer-patches": "^1.6"
     },
     "require-dev": {
         "alcaeus/mongo-php-adapter": "^1.1",
@@ -23,6 +24,13 @@
     "scripts": {
         "test": "phpunit",
         "cover": "phpunit --coverage-clover=unittest-coverage.clover"
+    },
+    "extra": {
+        "patches": {
+            "perftools/xhgui-collector": {
+                "Add encoding support for storing MySQL queries in MongoDB": "patches/encode-profiles.patch"
+            }
+        }
     },
     "suggest": {
         "ext-xhprof": "You need to install either xhprof or uprofiler to use XHGui.",

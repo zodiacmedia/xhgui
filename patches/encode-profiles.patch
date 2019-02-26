@@ -1,0 +1,17 @@
+Index: _xhgui/vendor/perftools/xhgui-collector/external/header.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+Description: Encodes the profile before saving it so that MySQL profile entries can be stored.
+<+>UTF-8
+===================================================================
+--- _xhgui/vendor/perftools/xhgui-collector/external/header.php	(date 1551196661433)
++++ _xhgui/vendor/perftools/xhgui-collector/external/header.php	(date 1551196661433)
+@@ -119,6 +119,8 @@
+             $data['profile'] = xhprof_disable();
+         }
+ 
++        $data['profile'] = Xhgui_Profiles::encodeProfile($data['profile']);
++
+         // ignore_user_abort(true) allows your PHP script to continue executing, even if the user has terminated their request.
+         // Further Reading: http://blog.preinheimer.com/index.php?/archives/248-When-does-a-user-abort.html
+         // flush() asks PHP to send any data remaining in the output buffers. This is normally done when the script completes, but
